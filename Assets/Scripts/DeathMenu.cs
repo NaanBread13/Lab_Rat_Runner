@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class DeathMenu : MonoBehaviour
 {
     public Text scoreText;
     public Image backgroundImage;
-
+    
     public  bool isShown = false;
     private float transition = 0.0f;
     // Start is called before the first frame update
@@ -34,6 +35,7 @@ public class DeathMenu : MonoBehaviour
         gameObject.SetActive(true);
         scoreText.text = ((int)score).ToString();
         isShown = true;
+        
     }
 
     public void Restart()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,8 +58,25 @@ public class Score : MonoBehaviour
             PlayerPrefs.SetFloat("Highscore", score);
         }
         deathMenu.ToggleEndMenu(score);
+        Collecting();
     }
-
+    public void Collecting()
+    {
+        int nc = 0;
+        if (isDead)
+        {
+            nc +=1;
+        }
+        if (nc==1)
+        {
+            int i;
+            i = (int)score;
+            string path = "Assets/test.txt";
+            StreamWriter writer = new StreamWriter(path, true);
+            writer.WriteLine(i);
+            writer.Close();
+        }
+    }
     public void addScore()
     {
         score += 50;
