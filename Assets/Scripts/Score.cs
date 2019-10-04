@@ -58,25 +58,25 @@ public class Score : MonoBehaviour
             PlayerPrefs.SetFloat("Highscore", score);
         }
         deathMenu.ToggleEndMenu(score);
-        Collecting();
+        //Collecting();
     }
-    public void Collecting()
-    {
-        int nc = 0;
-        if (isDead)
-        {
-            nc +=1;
-        }
-        if (nc==1)
-        {
-            int i;
-            i = (int)score;
-            string path = "Assets/test.txt";
-            StreamWriter writer = new StreamWriter(path, true);
-            writer.WriteLine(i);
-            writer.Close();
-        }
-    }
+    //public void Collecting()
+    //{
+    //    int nc = 0;
+    //    if (isDead)
+    //    {
+    //        nc +=1;
+    //    }
+    //    if (nc==1)
+    //    {
+    //        int i;
+    //        i = (int)score;
+    //        string path = "Assets/test.txt";
+    //        StreamWriter writer = new StreamWriter(path, true);
+    //        writer.WriteLine(i);
+    //        writer.Close();
+    //    }
+    //}
     public void addScore()
     {
         score += 50;
