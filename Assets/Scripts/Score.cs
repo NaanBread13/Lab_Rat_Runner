@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+    
     public float score = 0;
     public int difficultyLevel = 1;
     public int maxDifficultyLevel = 10;
     public int scoreToNextLevel = 10;
-
     private bool isDead = false;
 
     public Text scoreText;
@@ -60,6 +60,12 @@ public class Score : MonoBehaviour
         deathMenu.ToggleEndMenu(score);
         //Collecting();
     }
+
+    public float getHighScore()
+    {
+        return PlayerPrefs.GetFloat("Highscore");
+    }
+
     //public void Collecting()
     //{
     //    int nc = 0;

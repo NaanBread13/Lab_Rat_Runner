@@ -52,7 +52,6 @@ public class ItemSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (isTileSpawner == 1)
         {
             if (PlayerTransform.position.z + zoneFront > (tileList[tileList.Count - 1].transform.position.z))
