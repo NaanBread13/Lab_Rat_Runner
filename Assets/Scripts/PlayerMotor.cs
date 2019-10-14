@@ -3,8 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+This script controls the Player Movement for both characters and their lives(which is the calculated in total for both) 
+*/
 public class PlayerMotor : MonoBehaviour
 {
+
+    // These variables are all in relation to the movment of the character
     private CharacterController controller;
     public float speed = 5.0f;
     private float verticalVelocity = 0.0f;
@@ -26,34 +31,35 @@ public class PlayerMotor : MonoBehaviour
         startTime = Time.time;
         PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         PlayerTransform_2 = GameObject.FindGameObjectWithTag("Player2").transform;
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If either player falls down off the platform, they die.
         if (PlayerTransform.position.y < -10 ^ (PlayerTransform_2.position.y < -10))
         {
             DeathSequence();
         }
+        // Lives goes to 0 then game over.
         if (life == 0)
         {
             DeathSequence();
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            verticalVelocity = jumpForce;
-        }
+        //This is true if the Death Sequence method is called, which makes sure the player is dead
         if (isDead)
         {
             return;
         }
-        if (Time.time - startTime <animationDuration)
+        // 
+        if (Time.time - startTime < animationDuration)
         {
             controller.Move(Vector3.forward * speed * Time.deltaTime);
             return;
         }
-
+        //If the player is grounded, the vertical velocity is dependent on the gravity by time 
+        // When the player clicks W the vertical velocity = the jumpforce
+        // If the player isn't grounded 
         if(controller.isGrounded)
         {
             verticalVelocity = -gravity * Time.deltaTime;
@@ -72,18 +78,20 @@ public class PlayerMotor : MonoBehaviour
         // Up
         moveVector.y = verticalVelocity;
 
-        // Forwards
+        // Forwards is equal to speed, since the player themselves cant' move forwards
         moveVector.z = speed;
 
         controller.Move(moveVector * Time.deltaTime);
     }
     
+    // This method sets the speed depending on the modifier  so initially it is just 5 but as the difficulty of the game increases the speed increases.
     public void setSpeed(float modifier)
     {
         speed = 5.0f + modifier;
     }
 
-    // Called wvery time player hits something
+    // Called every time player hits an enemy object. If they do hit a enemy object, the object disappears and then the player loses a life.
+    // Like the previous methods if the l
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if(hit.gameObject.tag == "Enemy")
@@ -102,38 +110,30 @@ public class PlayerMotor : MonoBehaviour
         }
     }
 
-    public void setLife(int a)
+    // This method changes the life for the player depending on integer passed in. 
+    public void setLife(int boolIndex)
     {
-        if (a == 0)
+        if (boolIndex == 0)
         {
             life -= 1;
         }
-        else if (a==1)
+        else if (boolIndex == 1)
         {
             life += 1;
         }
-            
     }
+
+    // This method sets the boolean isDead to true and calls the OnDeath method from the Score script. (OnDeath method, saves the current scorea and toggles the death Menu On)
     private void DeathSequence()
-    {
-        
+    {   
         isDead = true;
         GetComponent<Score>().OnDeath();
     }
+
+    // Returns speed
     public float getSpeed()
     {
         return speed;
     }
-    public void pasuse(int a = 0)
-    {
-        if (a == 0)
-        {
-            prePauseSpeed = speed;
-            speed = 0;
-        }
-        else
-        {
-            speed = prePauseSpeed;
-        }
-    }
+
 }

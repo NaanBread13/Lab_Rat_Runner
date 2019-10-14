@@ -62,7 +62,7 @@ public class Player2Motor : MonoBehaviour
         speed = 5.0f + modifier;
     }
 
-    // Called wvery time player hits something
+    // Called every time player hits an obstacle
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.gameObject.tag == "Enemy")
@@ -80,8 +80,6 @@ public class Player2Motor : MonoBehaviour
 
         }
     }
-
-
 
     private void DeathSequence()
     {
