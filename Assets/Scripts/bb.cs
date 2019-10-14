@@ -31,13 +31,26 @@ public class bb : MonoBehaviour
     public void player1Select()
     {
         int chosenPlayer = GameObject.Find("GameObject").GetComponent<testb>().getIndex();
-        PlayerPrefs.SetInt("Player1Model", chosenPlayer);
+        if (chosenPlayer == PlayerPrefs.GetInt("Player2Model"))
+        {
+            Debug.Log("You can't have the same playermodel as Player 1");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Player1Model", chosenPlayer);
+        }
         Debug.Log(chosenPlayer);
     }
 
     public void player2Select()
     {
         int chosenPlayer = GameObject.Find("GameObject").GetComponent<testb>().getIndex();
-        PlayerPrefs.SetInt("Player2Model", chosenPlayer);
+        if (chosenPlayer == PlayerPrefs.GetInt("Player1Model"))
+        {
+            Debug.Log("You can't have the same playermodel as Player 1");
+        }
+        else {
+            PlayerPrefs.SetInt("Player2Model", chosenPlayer);
+        }
     }
 }

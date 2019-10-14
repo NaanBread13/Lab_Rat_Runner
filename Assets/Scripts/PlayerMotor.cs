@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* 
+/*
+This script controls the Player Movement for both characters and their lives(which is the calculated in total for both) 
 */
 public class PlayerMotor : MonoBehaviour
 {
 
-    // These variables contain the variables
+    // These variables are all in relation to the movment of the character
     private CharacterController controller;
     public float speed = 5.0f;
     private float verticalVelocity = 0.0f;
@@ -51,7 +52,7 @@ public class PlayerMotor : MonoBehaviour
             return;
         }
         // 
-        if (Time.time - startTime <animationDuration)
+        if (Time.time - startTime < animationDuration)
         {
             controller.Move(Vector3.forward * speed * Time.deltaTime);
             return;

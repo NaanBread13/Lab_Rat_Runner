@@ -8,6 +8,7 @@ public class testb : MonoBehaviour
     public GameObject[] ObsPre; // list of Object prefabs
     public int prefabPlayermodelIndex = 0; // index of prefabs;
     private List<GameObject> opList; // list of Object Prefabs
+    private int[] scores = { 0,0,200,500 };
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +26,17 @@ public class testb : MonoBehaviour
     {
         DeleteTile();
         Debug.Log("setspawnrrr");
-        if (prefabPlayermodelIndex > 2)
+        Debug.Log("Prefab Index");
+        if (prefabPlayermodelIndex == 2)
         {
             prefabPlayermodelIndex = 0;
         }
-      
-        SpawnItem(ObsPre, opList, 0, 0, 0, prefabPlayermodelIndex);
-        
-        prefabPlayermodelIndex += 1;
+        if (scores[prefabPlayermodelIndex] <= PlayerPrefs.GetFloat("Highscore"))
+        {
+            SpawnItem(ObsPre, opList, 0, 0, 0, prefabPlayermodelIndex);
+
+            prefabPlayermodelIndex += 1;
+        }
     }
 
     private void SpawnItem(GameObject[] abcObj, List<GameObject> abcList, float x, float y, float z, int n)
@@ -46,11 +50,11 @@ public class testb : MonoBehaviour
 
     public int getIndex()
     {
-       return prefabPlayermodelIndex;
+            return prefabPlayermodelIndex;
     }
     private void DeleteTile()
     {
-       
+
         if (opList.Count > 0)
         {
             Destroy(opList[0]);
@@ -61,8 +65,6 @@ public class testb : MonoBehaviour
         {
             Debug.Log("nothingto delete");
         }
-
-        
     }
 
 
