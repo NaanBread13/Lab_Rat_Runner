@@ -11,6 +11,8 @@ public class ItemSpawner : MonoBehaviour
 
     public int initialPlatformSize =5;
     public int tilePerRow = 9;
+    public int spawnRow = 9;
+    public float spawnLocationY;
     public float spawnZ = 0.0f;
     public float tileLength = 1.0f;
     public float tileWidth = 1.0f;
@@ -23,6 +25,7 @@ public class ItemSpawner : MonoBehaviour
     public int spawnDoorChanceNumerator = 0;
     public int spawnDoorChanceDenominator = 0;
     public int doorSpawnTri = 0;
+    public int movingwall = 0;
     public int doorLocation = 0;
     public int triLocation = 0;
     private int rowSpawnedIndex;
@@ -52,23 +55,28 @@ public class ItemSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (isTileSpawner == 1)
         {
             if (PlayerTransform.position.z + zoneFront > (tileList[tileList.Count - 1].transform.position.z))
             {
-                tielGenSys(tilePrefabs, tileList, 1, tilePerRow, tileHeight * spawnY, spawnChanceNumerator, spawnChanceDenominator);
+                tielGenSys(tilePrefabs, tileList, 1, spawnRow, tileHeight * spawnY, spawnChanceNumerator, spawnChanceDenominator);
             }
         }
         DeleteTile();
     }
 
     private void SpawnItem(GameObject[] abcObj, List<GameObject> abcList, float x, float y, float z, int n)
-    {
-        GameObject abc;
-        abc = Instantiate(abcObj[n]) as GameObject;
-        abc.transform.SetParent(transform);
-        abc.transform.position = new Vector3(x,y,z);
-        abcList.Add(abc);
+    { 
+        if ( x <= spawnRow)
+        {
+            GameObject abc;
+            abc = Instantiate(abcObj[n]) as GameObject;
+            abc.transform.SetParent(transform);
+            abc.transform.position = new Vector3(x, y, z);
+            abcList.Add(abc);
+        }
+        
     }
 
     private int ChanceGen(int a, int b)
@@ -85,61 +93,87 @@ public class ItemSpawner : MonoBehaviour
         for (int i = 0; i < a; i++)
         {
             //PxxxxlayerTransform.position.x
+            movingwall = ChanceGen(1, 2);
             rowSpawnedIndex = 0;
+            spawnLocationY = -spawnRow;
             doorSpawnTri = ChanceGen(spawnDoorChanceNumerator, spawnDoorChanceDenominator);
-            doorLocation = Random.Range(0, tilePerRow);
-            triLocation = Random.Range(0, tilePerRow);
+          
+            doorLocation = Random.Range(0, tilePerRow-4);
+            triLocation = Random.Range(0, tilePerRow-2);
             while (triLocation == doorLocation)
             {
-                triLocation = Random.Range(0, tilePerRow);
+                triLocation = Random.Range(0, tilePerRow-4);
             }
-            for (int ii = 0; ii < b; ii++)
+            for (int ii = -spawnRow; ii < b; ii++)
             {
-                SpawnItem(abcObj, abcList, 0 + tileWidth * (0 - (b / 2)) + ii, yy, spawnZ, 1);
+                SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy, spawnZ, 1);
                 if (doorSpawnTri == 0)
                 {
                     #region normal obs
-                    if ((rowSpawnedIndex < (b - 2)) & (colSpawnedIndex == 0))
+                    if (((spawnLocationY + 3) < (spawnRow)) & (colSpawnedIndex == 0) & (ChanceGen(c, d) == 1))
                     {
-                        if (ChanceGen(c, d) == 1)
+
+                        if (ChanceGen(1, 6) == 1)
                         {
-                            if (ChanceGen(1, 6) == 1)
-                            {
-                                SpawnItem(abcObj, abcList, 0 + tileWidth * (0 - (b / 2)) + ii, yy + 1.0f, spawnZ, 2);
-                                rowSpawnedIndex += 1;
-                            }
-                            else
-                            {
-                                SpawnItem(ObsPrefabs, abcList, 0 + tileWidth * (0 - (b / 2)) + ii, yy + 1.0f, spawnZ, 0);
-                                rowSpawnedIndex += 1;
-                            }
-                            
+                            SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 2);
+
                         }
-                    }
-                    #endregion
-                }
-                else
-                {
-                    #region door obs
-                    if (colSpawnedIndex == 0)
-                    {
-                        if ( ii == doorLocation)
+                        else if (ChanceGen(1, 6) == 1)
                         {
-                            SpawnItem(ObsPrefabs, obsList, 0 + tileWidth * (0 - (b / 2)) + ii, yy + 1.0f, spawnZ, 1);
+                            SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 3);
+
                         }
-                        else if (ii == triLocation)
+                        else if (ChanceGen(1, 4) == 1 & ((spawnLocationY + 4) < (spawnRow)))//size2
                         {
-                            SpawnItem(ObsPrefabs, abcList, 0 + tileWidth * (0 - (b / 2)) + ii, yy + 0.5f, spawnZ, 2);
+                            SpawnItem(ObsPrefabs, abcList, spawnLocationY + 1.0f, yy + 1.0f, spawnZ, 3);
+                            spawnLocationY += 1;
+                            SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy, spawnZ, 1);
+                            ii += 1;
                         }
+
                         else
                         {
-                            SpawnItem(ObsPrefabs, abcList, 0 + tileWidth * (0 - (b / 2)) + ii, yy + 1.0f, spawnZ, 0);
+                            SpawnItem(ObsPrefabs, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 0);
+
                         }
-                        rowSpawnedIndex += 1;
+
+
                     }
                     #endregion
                 }
 
+                else if (movingwall == 1 )
+                {
+                    if (((spawnLocationY + 3) < (spawnRow)) &(colSpawnedIndex == 0) & ChanceGen(3,4)==1)
+                    {
+                        SpawnItem(ObsPrefabs, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 4);
+                    }
+                }
+
+                else
+                {
+                    #region door obs
+                    if (colSpawnedIndex == 0 & spawnLocationY < spawnRow)
+                    {
+                        if (ii == doorLocation)
+                        {
+                            SpawnItem(ObsPrefabs, obsList, spawnLocationY + 1.0f, yy + 1.0f, spawnZ, 1);
+                            spawnLocationY += 1;
+                            SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy, spawnZ, 1);
+                        }
+                        else if (ii == triLocation)
+                        {
+                            SpawnItem(ObsPrefabs, abcList, spawnLocationY + 0.5f, yy + 0.5f, spawnZ, 2);
+                        }
+                        else
+                        {
+                            SpawnItem(ObsPrefabs, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 0);
+                        }
+
+                    }
+                    #endregion
+                }
+                spawnLocationY += 1;
 
             }
 

@@ -26,8 +26,8 @@ public class testb : MonoBehaviour
     {
         DeleteTile();
         Debug.Log("setspawnrrr");
-        Debug.Log("Prefab Index");
-        if (prefabPlayermodelIndex == 2)
+        Debug.Log("Prefab Index" + prefabPlayermodelIndex);
+        if (prefabPlayermodelIndex == 3)
         {
             prefabPlayermodelIndex = 0;
         }
@@ -59,7 +59,7 @@ public class testb : MonoBehaviour
         {
             Destroy(opList[0]);
             opList.RemoveAt(0);
-            Debug.Log(opList.Count);
+            //Debug.Log(opList.Count);
         }
         else
         {

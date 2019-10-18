@@ -6,13 +6,13 @@ public class PlayerScript : MonoBehaviour
 {
 
     public GameObject[] ObsPre; // list of Object prefabs
-    public int prefabPlayermodelIndex = 0; // index of prefabs;
     private List<GameObject> opList; // list of Object Prefabs
-    private int playerModelInteger = PlayerPrefs.GetInt("PlayerModel");
-
+    private int playerModelInteger;
     // Start is called before the first frame update
     void Start()
     {
+        playerModelInteger = PlayerPrefs.GetInt("Player1Model");
+        Debug.Log("Player Model Integer in Player Script " + playerModelInteger);
         opList = new List<GameObject>();
         setSpawn(playerModelInteger);
     }
@@ -25,16 +25,10 @@ public class PlayerScript : MonoBehaviour
 
     public void setSpawn(int justforfunDoesNothing)
     {
-        DeleteTile();
         Debug.Log("setspawnrrr");
-        if (prefabPlayermodelIndex == 2)
-        {
-            prefabPlayermodelIndex = 0;
-        }
+        
 
-        SpawnItem(ObsPre, opList, 0f ,1.2f, 0f, prefabPlayermodelIndex);
-
-        prefabPlayermodelIndex += 1;
+        SpawnItem(ObsPre, opList, 0f ,1.0f, 0f, justforfunDoesNothing);
     }
 
     private void SpawnItem(GameObject[] abcObj, List<GameObject> abcList, float x, float y, float z, int n)
@@ -45,25 +39,6 @@ public class PlayerScript : MonoBehaviour
         abc.transform.position = new Vector3(x, y, z);
         abcList.Add(abc);
     }
-
-    private void DeleteTile()
-    {
-
-        if (opList.Count > 0)
-        {
-            Destroy(opList[0]);
-            opList.RemoveAt(0);
-            Debug.Log(opList.Count);
-        }
-        else
-        {
-            Debug.Log("nothingto delete");
-        }
-
-
-    }
-
-
 
 }
 

@@ -62,7 +62,7 @@ public class Player2Motor : MonoBehaviour
         speed = 5.0f + modifier;
     }
 
-    // Called every time player hits an obstacle
+    // Called wvery time player hits something
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.gameObject.tag == "Enemy")
@@ -79,7 +79,26 @@ public class Player2Motor : MonoBehaviour
             other.setLife(0);
 
         }
+
+   
+
+        if (hit.gameObject.tag == "boost")
+        {
+          
+            (hit.gameObject.GetComponent(typeof(Collider)) as Collider).isTrigger = true;
+            hit.gameObject.tag = "trash";
+            string ScriptName = "MoveUp";
+            System.Type MyScriptType = System.Type.GetType(ScriptName + ",Assembly-CSharp");
+            hit.gameObject.AddComponent(MyScriptType);
+            GameObject go = GameObject.Find("Player");
+            PlayerMotor other = (PlayerMotor)go.GetComponent(typeof(PlayerMotor));
+            other.settimmer();
+
+        }
+
     }
+
+
 
     private void DeathSequence()
     {
