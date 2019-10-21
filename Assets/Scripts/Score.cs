@@ -50,6 +50,24 @@ public class Score : MonoBehaviour
         GameObject.FindGameObjectWithTag("Player2").GetComponent<Player2Motor>().setSpeed(difficultyLevel);
     }
 
+    public int NextLevel()
+    {
+  
+        scoreToNextLevel *= 2;
+        difficultyLevel++;
+        return difficultyLevel;
+    }
+    public int GetLevel()
+    {
+        return difficultyLevel;
+    }
+    public int LastLevel()
+    {
+        scoreToNextLevel /= 2;
+        difficultyLevel--;
+        return difficultyLevel;
+    }
+
     public void OnDeath()
     {
         isDead = true;
