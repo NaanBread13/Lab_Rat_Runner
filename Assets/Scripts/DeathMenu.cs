@@ -9,7 +9,9 @@ public class DeathMenu : MonoBehaviour
 {
     public Text scoreText;
     public Image backgroundImage;
-    
+    private int rs;
+    public lead ld;
+
     public  bool isShown = false;
     private float transition = 0.0f;
     // Start is called before the first frame update
@@ -33,16 +35,29 @@ public class DeathMenu : MonoBehaviour
     public void ToggleEndMenu(float score)
     {
         gameObject.SetActive(true);
-        scoreText.text = ((int)score).ToString();
+        rs = ((int)score);
+        scoreText.text = rs.ToString();
         isShown = true;
         
     }
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
+    public void Savedata()
+    {
+        Debug.Log("datas saved" + rs);
+        PlayerPrefs.SetInt("scoreR", rs);
+        ld.inPutNum();
+        //ld.newNum();
+    }
+    public void LoadData()
+    {
+        int score = PlayerPrefs.GetInt("ScoreR");
+        Debug.Log(score);
+        print(score);
+    }
     public void ToMenu()
     {
         SceneManager.LoadScene("Menu");
