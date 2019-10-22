@@ -63,18 +63,12 @@ public class PlayerMotor : MonoBehaviour
             }
         }
 
-        if (PlayerTransform.position.y < -10 ^ (PlayerTransform_2.position.y < -10))
-        {
-            DeathSequence();
-        }
+    
         if (life <= 0)
         {
             DeathSequence();
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            verticalVelocity = jumpForce;
-        }
+       
         if (isDead)
         {
             return;

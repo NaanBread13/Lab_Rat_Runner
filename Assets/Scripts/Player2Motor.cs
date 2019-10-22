@@ -8,7 +8,7 @@ public class Player2Motor : MonoBehaviour
     private CharacterController controller2;
     private float speed = 5.0f;
     private float verticalVelocity = 0.0f;
-    private float gravity = 10.0f;
+    private float gravity = 110.0f;
     private Vector3 moveVector;
     private float animationDuration = 0.5f;
     private bool isDead = false;
@@ -37,9 +37,14 @@ public class Player2Motor : MonoBehaviour
         }
         moveVector = Vector3.zero;
 
+
         if (controller2.isGrounded)
         {
-            verticalVelocity = -0.5f;
+            verticalVelocity = -gravity * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                verticalVelocity = 20.0f;
+            }
         }
         else
         {

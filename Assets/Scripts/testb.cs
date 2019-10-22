@@ -8,7 +8,7 @@ public class testb : MonoBehaviour
     public GameObject[] ObsPre; // list of Object prefabs
     public int prefabPlayermodelIndex = 0; // index of prefabs;
     private List<GameObject> opList; // list of Object Prefabs
-    private int[] scores = { 0,0,200,500 };
+    private int[] scores = { 0,0,200,500,900,2000 };
 
     // Start is called before the first frame update
     void Start()
@@ -27,13 +27,13 @@ public class testb : MonoBehaviour
         DeleteTile();
         Debug.Log("setspawnrrr");
         Debug.Log("Prefab Index" + prefabPlayermodelIndex);
-        if (prefabPlayermodelIndex == 3)
+        if (prefabPlayermodelIndex == 6)
         {
             prefabPlayermodelIndex = 0;
         }
         if (scores[prefabPlayermodelIndex] <= PlayerPrefs.GetFloat("Highscore"))
         {
-            SpawnItem(ObsPre, opList, 0, 0, 0, prefabPlayermodelIndex);
+            SpawnItem(ObsPre, opList, 0, -2, 0, prefabPlayermodelIndex);
 
             prefabPlayermodelIndex += 1;
         }
@@ -45,6 +45,7 @@ public class testb : MonoBehaviour
         abc = Instantiate(abcObj[n]) as GameObject;
         abc.transform.SetParent(transform);
         abc.transform.position = new Vector3(x, y, z);
+        abc.transform.Rotate(0, 180, 0);
         abcList.Add(abc);
     }
 

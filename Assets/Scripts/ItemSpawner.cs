@@ -118,9 +118,19 @@ public class ItemSpawner : MonoBehaviour
                             SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 2);
 
                         }
-                        else if (ChanceGen(1, 6) == 1)
+                        else if (ChanceGen(1, 12) == 1)
                         {
                             SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 3);
+
+                        }
+                        else if (ChanceGen(1, 6) == 1)
+                        {
+                            SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 4);
+
+                        }
+                        else if (ChanceGen(1, 6) == 1)
+                        {
+                            SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy + 1.0f, spawnZ, 5);
 
                         }
                         else if (ChanceGen(1, 4) == 1 & ((spawnLocationY + 4) < (spawnRow)))//size2
@@ -130,6 +140,7 @@ public class ItemSpawner : MonoBehaviour
                             SpawnItem(abcObj, abcList, spawnLocationY + 0.5f, yy, spawnZ, 1);
                             ii += 1;
                         }
+
 
                         else
                         {
