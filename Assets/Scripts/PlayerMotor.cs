@@ -18,6 +18,11 @@ public class PlayerMotor : MonoBehaviour
     public int life = 3;
     public Transform PlayerTransform;
     public Transform PlayerTransform_2;
+    public float preSpeed=0;
+    public int preLife=0;
+    private float waitTime = 1.0f;
+    private float timer = 0.0f;
+    private int timeTri = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -32,18 +37,38 @@ public class PlayerMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerTransform.position.y < -10 ^ (PlayerTransform_2.position.y < -10))
+        GameObject.FindGameObjectWithTag("Player2").GetComponent<Player2Motor>().setSpeed(speed - 5.0f);
+        if (PlayerTransform.position.z - PlayerTransform_2.position.z < 0)
+        {
+            controller.Move(-Vector3.forward * (PlayerTransform.position.z - PlayerTransform_2.position.z));
+        }
+        if (PlayerTransform.position.z - PlayerTransform_2.position.z > -0)
+        {
+            controller.Move(-Vector3.forward * (PlayerTransform.position.z - PlayerTransform_2.position.z));
+        }
+
+
+        if (timeTri ==1)
+        {
+            timer += Time.deltaTime;
+
+            if (timer > waitTime)
+            {
+
+                speed = preSpeed;
+
+                life = preLife;
+                timer = timer - waitTime - waitTime;
+                timeTri = 0;
+            }
+        }
+
+    
+        if (life <= 0)
         {
             DeathSequence();
         }
-        if (life == 0)
-        {
-            DeathSequence();
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            verticalVelocity = jumpForce;
-        }
+       
         if (isDead)
         {
             return;
@@ -93,15 +118,48 @@ public class PlayerMotor : MonoBehaviour
             hit.gameObject.tag = "trash";
             string ScriptName = "MoveUp";
             System.Type MyScriptType = System.Type.GetType(ScriptName + ",Assembly-CSharp");
+            Debug.Log(124134134141);
             hit.gameObject.AddComponent(MyScriptType);
             if (life == 0)
             {
                 DeathSequence();
             }
+        }
+
+        if (hit.gameObject.tag == "boost")
+        {
+            //preLife = life;
+            //life = 999999;
+            settimmer();
+            (hit.gameObject.GetComponent(typeof(Collider)) as Collider).isTrigger = true;
+            hit.gameObject.tag = "trash";
+            string ScriptName = "MoveUp";
+            System.Type MyScriptType = System.Type.GetType(ScriptName + ",Assembly-CSharp");
+            hit.gameObject.AddComponent(MyScriptType);
+            
+            //preSpeed = speed;
+            //speed = 30.0f;
+            
+            //timeTri = 1;
             
         }
+
     }
 
+    public void settimmer()
+    {
+        if (timeTri != 1)
+        {
+            preLife = life;
+            life = 999999;
+            preSpeed = speed;
+            speed = 30.0f;
+            timeTri = 1;
+        }
+        
+
+        
+    }
     public void setLife(int a)
     {
         if (a == 0)

@@ -8,7 +8,7 @@ public class Player2Motor : MonoBehaviour
     private CharacterController controller2;
     private float speed = 5.0f;
     private float verticalVelocity = 0.0f;
-    private float gravity = 10.0f;
+    private float gravity = 110.0f;
     private Vector3 moveVector;
     private float animationDuration = 0.5f;
     private bool isDead = false;
@@ -37,9 +37,14 @@ public class Player2Motor : MonoBehaviour
         }
         moveVector = Vector3.zero;
 
+
         if (controller2.isGrounded)
         {
-            verticalVelocity = -0.5f;
+            verticalVelocity = -gravity * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                verticalVelocity = 20.0f;
+            }
         }
         else
         {
@@ -79,6 +84,23 @@ public class Player2Motor : MonoBehaviour
             other.setLife(0);
 
         }
+
+   
+
+        if (hit.gameObject.tag == "boost")
+        {
+          
+            (hit.gameObject.GetComponent(typeof(Collider)) as Collider).isTrigger = true;
+            hit.gameObject.tag = "trash";
+            string ScriptName = "MoveUp";
+            System.Type MyScriptType = System.Type.GetType(ScriptName + ",Assembly-CSharp");
+            hit.gameObject.AddComponent(MyScriptType);
+            GameObject go = GameObject.Find("Player");
+            PlayerMotor other = (PlayerMotor)go.GetComponent(typeof(PlayerMotor));
+            other.settimmer();
+
+        }
+
     }
 
 
