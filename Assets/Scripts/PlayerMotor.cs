@@ -124,6 +124,7 @@ public class PlayerMotor : MonoBehaviour
             hit.gameObject.tag = "trash";
             string ScriptName = "MoveUp";
             System.Type MyScriptType = System.Type.GetType(ScriptName + ",Assembly-CSharp");
+            Debug.Log(124134134141);
             hit.gameObject.AddComponent(MyScriptType);
             if (life == 0)
             {
