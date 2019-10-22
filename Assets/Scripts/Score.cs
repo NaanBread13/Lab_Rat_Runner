@@ -34,7 +34,7 @@ public class Score : MonoBehaviour
             LevelUp();
         }
         score += Time.deltaTime * difficultyLevel;
-
+        Debug.Log(score);
         scoreText.text = ("Life:" + GetComponent<PlayerMotor>().life).ToString() + "          Score:"+((int)score).ToString();//
     }
 
